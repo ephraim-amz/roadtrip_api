@@ -34,4 +34,12 @@ class ActivityControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists());
     }
+
+    @Test
+    void emptyActivitiesTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/activities")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent());
+    }
 }
