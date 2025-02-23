@@ -65,4 +65,39 @@ class ActivityControllerTest {
                 ).andDo(print())
                 .andExpect(status().isOk());
     }
+
+    @Test
+    void getAllActivityTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .post("/api/activity/new")
+                .content("{\n" +
+                        "    \"name\": \"Parisian Food Walking Tour\",\n" +
+                        "    \"description\": \"Sample the finest French delicacies while exploring charming neighborhoods, including cheese, wine, and pastry tastings.\",\n" +
+                        "    \"city\": \"Paris\",\n" +
+                        "    \"duration\": 180,\n" +
+                        "    \"price\": 95,\n" +
+                        "    \"category\": \"food\",\n" +
+                        "    \"rating\": 4.7\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mvc.perform(MockMvcRequestBuilders
+                .post("/api/activity/new")
+                .content("{\n" +
+                        "    \"name\": \"Mount Fuji Sunrise Hike\",\n" +
+                        "    \"description\": \"Experience the breathtaking sunrise from Japan's highest peak with traditional Japanese breakfast included.\",\n" +
+                        "    \"city\": \"Tokyo\",\n" +
+                        "    \"duration\": 720,\n" +
+                        "    \"price\": 150,\n" +
+                        "    \"category\": \"adventure\",\n" +
+                        "    \"rating\": 4.9\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/activities")
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isOk());
+    }
 }
