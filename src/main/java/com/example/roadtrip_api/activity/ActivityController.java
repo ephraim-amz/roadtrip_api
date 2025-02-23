@@ -29,5 +29,14 @@ public class ActivityController {
                 .findFirst().orElseThrow(ActivityNotFoundException::new));
     }
 
+    @GetMapping(path = "/api/activities", produces = "application/json")
+    public ResponseEntity<List<Activity>> getActivities() {
+        if (activities.isEmpty()) {
+            logger.error("No activities found");
+            return ResponseEntity.noContent().build();
+        }
+        logger.info("Activities found");
+        return ResponseEntity.ok(activities);
+    }
 
 }
