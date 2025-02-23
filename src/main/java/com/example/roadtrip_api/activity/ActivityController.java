@@ -1,7 +1,28 @@
 package com.example.roadtrip_api.activity;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 public class ActivityController {
+    private final List<Activity> activities = new ArrayList<>();
+    private final Logger logger = LoggerFactory.getLogger(ActivityController.class);
+
+    @PostMapping(value = "/api/activity/new")
+    public ResponseEntity<Activity> newActivity(@RequestBody Activity activity) {
+        activities.add(activity);
+        logger.info("A new activity has been created");
+        return new ResponseEntity<>(activity, HttpStatus.CREATED);
+    }
+
+
+
 }
