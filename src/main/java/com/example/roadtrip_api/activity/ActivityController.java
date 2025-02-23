@@ -4,9 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +21,13 @@ public class ActivityController {
         return new ResponseEntity<>(activity, HttpStatus.CREATED);
     }
 
+    @GetMapping(path = "/api/activity/{id}", produces = "application/json")
+    public ResponseEntity<Activity> getActivity(@PathVariable int id) {
+        return ResponseEntity.ok(activities
+                .stream()
+                .filter(activity -> activity.id() == id)
+                .findFirst().orElseThrow(ActivityNotFoundException::new));
+    }
 
 
 }
