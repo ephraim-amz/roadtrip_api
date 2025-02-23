@@ -39,4 +39,10 @@ public class ActivityController {
         return ResponseEntity.ok(activities);
     }
 
+    @PostMapping("/api/activity/delete")
+    public ResponseEntity<String> deleteActivity(@RequestParam int id) {
+        activities.removeIf(activity -> activity.id() == id);
+        return ResponseEntity.ok(String.format("Deleted activity with id %d", id));
+    }
+
 }
