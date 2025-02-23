@@ -29,3 +29,6 @@ jobs:
 
       - name: Project building
         run: mvn -B package --file pom.xml
+
+      - name: Running unit test cases
+        run: mvn clean compile test
