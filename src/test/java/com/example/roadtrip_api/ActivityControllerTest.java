@@ -9,6 +9,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(ActivityController.class)
@@ -41,5 +42,27 @@ class ActivityControllerTest {
                         .get("/api/activities")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNoContent());
+    }
+
+    @Test
+    void getSingularActivityTest() throws Exception {
+        mvc.perform(MockMvcRequestBuilders
+                .post("/api/activity/new")
+                .content("{\n" +
+                        "    \"name\": \"Parisian Food Walking Tour\",\n" +
+                        "    \"description\": \"Sample the finest French delicacies while exploring charming neighborhoods, including cheese, wine, and pastry tastings.\",\n" +
+                        "    \"city\": \"Paris\",\n" +
+                        "    \"duration\": 180,\n" +
+                        "    \"price\": 95,\n" +
+                        "    \"category\": \"food\",\n" +
+                        "    \"rating\": 4.7\n" +
+                        "}").contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mvc.perform(MockMvcRequestBuilders
+                        .get("/api/activity/{id}", 0)
+                        .accept(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isOk());
     }
 }
