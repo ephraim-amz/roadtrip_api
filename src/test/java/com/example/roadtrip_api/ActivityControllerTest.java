@@ -8,6 +8,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -97,6 +99,31 @@ class ActivityControllerTest {
         mvc.perform(MockMvcRequestBuilders
                         .get("/api/activities")
                         .accept(MediaType.APPLICATION_JSON)
+                ).andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void deleteActivityTest() throws Exception {
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+
+        params.add("id", "0");
+        params.add("name", "Mount Fuji Sunrise Hike");
+        params.add("description", "Experience the breathtaking sunrise from Japan's highest peak with traditional Japanese breakfast included.");
+        params.add("city", "Tokyo");
+        params.add("duration", "720");
+        params.add("price", "150");
+        params.add("category", "adventure");
+        params.add("rating", "4.9");
+
+        mvc.perform(MockMvcRequestBuilders
+                .post("/api/activity/new")
+                .params(params)
+                .accept(MediaType.APPLICATION_JSON));
+
+        mvc.perform(MockMvcRequestBuilders
+                        .post("/api/activity/delete")
+                        .param("id", "0")
                 ).andDo(print())
                 .andExpect(status().isOk());
     }
