@@ -1,0 +1,25 @@
+name: Azure Container Registry push Workflow
+
+on:
+  pull_request:
+    branches:
+      - main
+
+env:
+  registry-name: roadtripcr
+  app-name: roadtrip-api
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: azure/docker-login@v1
+        with:
+          login-server: ${{ env.registry-name }}.azurecr.io
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+      - run: |
+          docker build . -t ${{ env.registry-name }}.azurecr.io/${{ env.app-name }}:${{ github.sha }}
+          docker push ${{ env.registry-name }}.azurecr.io/${{ env.app-name }}:${{ github.sha }}
