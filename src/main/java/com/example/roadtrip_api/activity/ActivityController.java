@@ -23,10 +23,15 @@ public class ActivityController {
 
     @GetMapping(path = "/api/activity/{id}", produces = "application/json")
     public ResponseEntity<Activity> getActivity(@PathVariable int id) {
-        return ResponseEntity.ok(activities
-                .stream()
-                .filter(activity -> activity.id() == id)
-                .findFirst().orElseThrow(ActivityNotFoundException::new));
+        try {
+            Activity activity = activities.stream()
+                    .filter(activity1 -> activity1.id() == id).findFirst()
+                    .orElseThrow(() -> new ActivityNotFoundException(String.format("No activity with id %d exists", id)));
+            return ResponseEntity.ok(activity);
+        } catch (ActivityNotFoundException exception) {
+            logger.error("The activity {} has not been found", id);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
     }
 
     @GetMapping(path = "/api/activities", produces = "application/json")
