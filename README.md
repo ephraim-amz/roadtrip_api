@@ -13,9 +13,5 @@ Depedancy manager : Maven \
 VCS & Repo Hosting: Git & Github \
 CI/CD : GitHub Actions
 Unit Test : JUnit \
-Containerization : Docker
-
-## Information
-
-
-⏳
+Containerization : Docker \
+Cloud : Azure Container Registry
