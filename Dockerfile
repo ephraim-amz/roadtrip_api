@@ -1,6 +1,6 @@
 FROM eclipse-temurin:19-alpine
 LABEL maintainer="ephraimamezian@gmail.com"
-LABEL version="0.0.1"
+LABEL version="0.1.0"
 ARG JAR_FILE=target/*.jar
 EXPOSE 8080
 COPY ${JAR_FILE} app.jar
