@@ -25,12 +25,11 @@ jobs:
       - name: JAR building with Maven
         run: mvn clean package
 
-      - name: Azure Container Registry Deployment
-        uses: azure/docker-login@v1
+      - uses: azure/docker-login@v1
         with:
           login-server: ${{ env.registry-name }}.azurecr.io
           username: ${{ secrets.REGISTRY_USERNAME }}
           password: ${{ secrets.REGISTRY_PASSWORD }}
-        run: |
+      - run: |
           docker build --build-arg JAR_FILE=target/*.jar -t ${{ env.registry-name }}.azurecr.io/${{ env.app-name }}:${{ github.sha }} .
           docker push ${{ env.registry-name }}.azurecr.io/${{ env.app-name }}:${{ github.sha }}
